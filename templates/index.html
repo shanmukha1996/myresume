@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ data.personal.name }} - {{ data.personal.title }}">
+    <meta name="author" content="{{ data.personal.name }}">
+    <title>{{ data.personal.name }} - Portfolio</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">{{ data.personal.initials }}</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#expertise">Expertise</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#projects">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#experience">Experience</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="hero-content text-center">
+                <h1 class="hero-title">{{ data.personal.title }}</h1>
+                <p class="hero-subtitle">{{ data.personal.subtitle }}</p>
+                <p class="hero-description">{{ data.summary }}</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-envelope me-2"></i>Let's Connect
+                    </a>
+                    <a href="#projects" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-briefcase me-2"></i>View My Work
+                    </a>
+                </div>
+                <div class="scroll-indicator">
+                    <p class="scroll-text">Scroll to explore</p>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title">About Me</h2>
+                <p class="section-subtitle">Strategic Architect. Technical Leader. Innovation Driver.</p>
+            </div>
+            
+            <div class="row g-4">
+                {% for highlight in data.highlights %}
+                <div class="col-md-4">
+                    <div class="highlight-card">
+                        <div class="highlight-icon">
+                            <i class="fas {{ highlight.icon }}"></i>
+                        </div>
+                        <h3 class="highlight-title">{{ highlight.title }}</h3>
+                        <p class="highlight-description">{{ highlight.description }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Expertise Section -->
+    <section id="expertise" class="expertise-section">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title">Technical Expertise</h2>
+            </div>
+            
+            <div class="row g-4">
+                {% for category, skills in data.expertise.items() %}
+                <div class="col-lg-6">
+                    <div class="expertise-card">
+                        <h3 class="expertise-category">{{ category }}</h3>
+                        <div class="skills-container">
+                            {% for skill in skills %}
+                            <span class="skill-badge">{{ skill }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Projects Section -->
+    <section id="projects" class="projects-section">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title">Featured Projects</h2>
+            </div>
+            
+            <div class="row g-4">
+                {% for project in data.projects %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="project-card">
+                        <div class="project-icon">
+                            <i class="fas {{ project.icon }}"></i>
+                        </div>
+                        <div class="project-tech">
+                            {% for tech in project.technologies %}
+                            <span class="tech-tag">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                        <h3 class="project-title">{{ project.title }}</h3>
+                        <p class="project-description">{{ project.description }}</p>
+                        <ul class="project-highlights">
+                            {% for highlight in project.highlights %}
+                            <li><i class="fas fa-arrow-right me-2"></i>{{ highlight }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience-section">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title">Professional Experience</h2>
+            </div>
+            
+            <div class="timeline">
+                {% for job in data.experience %}
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="experience-header">
+                            <h3 class="experience-title">{{ job.title }}</h3>
+                            <span class="experience-company">{{ job.company }}</span>
+                            {% if job.current %}
+                            <span class="badge bg-success ms-2">Current</span>
+                            {% endif %}
+                        </div>
+                        <div class="experience-meta">
+                            <span class="experience-period">
+                                <i class="fas fa-calendar me-2"></i>{{ job.period }}
+                            </span>
+                            <span class="experience-location">
+                                <i class="fas fa-map-marker-alt me-2"></i>{{ job.location }}
+                            </span>
+                        </div>
+                        <ul class="experience-responsibilities">
+                            {% for responsibility in job.responsibilities %}
+                            <li>{{ responsibility }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="education-section">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title">Education</h2>
+            </div>
+            
+            <div class="row g-4 justify-content-center">
+                {% for edu in data.education %}
+                <div class="col-lg-5 col-md-6">
+                    <div class="education-card">
+                        <div class="education-icon">
+                            <i class="fas {{ edu.icon }}"></i>
+                        </div>
+                        <h3 class="education-degree">{{ edu.degree }}</h3>
+                        <p class="education-field">{{ edu.field }}</p>
+                        <p class="education-institution">{{ edu.institution }}</p>
+                        <div class="education-meta">
+                            <span class="education-location">
+                                <i class="fas fa-map-marker-alt me-2"></i>{{ edu.location }}
+                            </span>
+                            <span class="education-year">
+                                <i class="fas fa-calendar me-2"></i>{{ edu.year }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="certifications-section">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title">Certifications</h2>
+            </div>
+            
+            <div class="certifications-grid">
+                {% for cert in data.certifications %}
+                <div class="certification-item">
+                    <div class="certification-badge">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <div class="certification-info">
+                        <h4 class="certification-name">{{ cert.name }}</h4>
+                        <p class="certification-issuer">{{ cert.issuer }} • {{ cert.year }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Patents Section -->
+    <section id="patents" class="patents-section">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title">Patents & Publications</h2>
+            </div>
+            
+            <div class="row g-4">
+                {% for patent in data.patents %}
+                <div class="col-lg-6">
+                    <div class="patent-card">
+                        <div class="patent-icon">
+                            <i class="fas {{ patent.icon }}"></i>
+                        </div>
+                        <div class="patent-content">
+                            <span class="patent-status">{{ patent.status }}</span>
+                            <h4 class="patent-title">{{ patent.title }}</h4>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title">Get In Touch</h2>
+                <p class="section-subtitle">Let's connect and discuss opportunities</p>
+            </div>
+            
+            <div class="contact-content text-center">
+                <div class="contact-info mb-4">
+                    <p class="contact-location">
+                        <i class="fas fa-map-marker-alt me-2"></i>{{ data.personal.location }}
+                    </p>
+                </div>
+                
+                <div class="contact-methods">
+                    <a href="mailto:{{ data.personal.email }}" class="contact-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>{{ data.personal.email }}</span>
+                    </a>
+                    <a href="{{ data.personal.linkedin }}" target="_blank" class="contact-link">
+                        <i class="fab fa-linkedin"></i>
+                        <span>LinkedIn Profile</span>
+                    </a>
+                </div>
+                
+                <div class="social-links mt-4">
+                    <a href="{{ data.personal.linkedin }}" target="_blank" class="social-icon" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="{{ data.personal.medium }}" target="_blank" class="social-icon" aria-label="Medium">
+                        <i class="fab fa-medium-m"></i>
+                    </a>
+                    <a href="mailto:{{ data.personal.email }}" class="social-icon" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content text-center">
+                <p class="footer-text">
+                    &copy; 2025 {{ data.personal.name }}. All rights reserved.
+                </p>
+                <p class="footer-credits">
+                    Built with <i class="fas fa-heart text-danger"></i> using Flask & Bootstrap
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
